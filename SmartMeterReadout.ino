@@ -78,8 +78,6 @@ void setup() {
 
   // start the server
   server.begin();
-  //Serial.print("server is at ");
-  //Serial.println(Ethernet.localIP());
 }
 
 void loop() {
@@ -95,12 +93,9 @@ void loop() {
           client.println();
           client.println("<!DOCTYPE HTML>");
           client.println("<html>");
-          // output the value of each analog input pin
-          //for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
-            client.print("Received Power: ");
-            client.print(ReceivedPower);
-            client.println("<br />");
-          //}
+          client.print("Received Power: ");
+          client.print(ReceivedPower);
+          client.println("<br />");
           client.println("</html>");
           
       }
@@ -113,16 +108,10 @@ void loop() {
   if (Serial.available()) 
   {
     int inByte = Serial.read();
-    /*if(initpassed == false)
-    {
-    Serial.write(inByte);
-    }*/
-    //Serial.write(inByte);
 
     if((startingNewLine == true || PatternMatchCounter > 0) && inByte == OverallReceivedPowerPattern[PatternMatchCounter] && PatternMatchCounter < OverallReceivedPowerPatternLength)
     {
       PatternMatchCounter ++;
-      //Serial.write("PM.. \n");
     }
     else if(PatternMatchCounter < OverallReceivedPowerPatternLength)
     {
@@ -133,17 +122,8 @@ void loop() {
       if(inByte != '.' && inByte != '*')
       {
         int recNum = (int) (inByte - 48);
-       /* Serial.write("Char: ");
-        Serial.print(recNum);
-        Serial.write("\n");*/
         OverallReceivedPower = OverallReceivedPower + (HighPowerNumber * recNum);
         HighPowerNumber = HighPowerNumber / 10;
-        /*Serial.write("Overall: ");
-        Serial.print(OverallReceivedPower);
-        Serial.write("\n");
-        Serial.write("HP: ");
-        Serial.print(HighPowerNumber);
-        Serial.write("\n");*/
       }
       else if(inByte == '*')
       {
